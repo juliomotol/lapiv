@@ -14,7 +14,7 @@ class LapivServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('lapiv.php'),
+                __DIR__.'/../config/lapiv.php' => config_path('lapiv.php'),
             ], 'config');
         }
         
