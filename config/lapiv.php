@@ -33,7 +33,7 @@ return [
             'prefix' => 'v{version}'
         ],
         'query_string' => [
-            'key' => 'version'
+            'key' => 'v'
         ],
         'header' => [
             'key' => 'Accept',

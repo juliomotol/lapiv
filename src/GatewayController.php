@@ -64,12 +64,15 @@ class GatewayController extends Controller
                 $version = $this->request[$methodOptions['key']] ?? null;
                 break;
             case 'header':
-                $headerValue = $this->request->header($methodOptions['key']) ?? null;
+                $version = $headerValue = $this->request->header($methodOptions['key']) ?? null;
+
+                if ($methodOptions['pattern']) {
                 $matches = [];
 
                 preg_match($methodOptions['pattern'], $headerValue, $matches);
 
                 $version = $matches[1] ?? null;
+                }
                 break;
             default:
                 throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
