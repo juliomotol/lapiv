@@ -1,8 +1,8 @@
 <?php
 
-namespace Juliomotol\Lapiv;
+namespace JulioMotol\Lapiv;
 
-class Lapiv
+class LapivRouter
 {
     // Build your next great package.
 }

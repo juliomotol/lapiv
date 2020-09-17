@@ -1,6 +1,6 @@
 <?php
 
-namespace Juliomotol\Lapiv;
+namespace JulioMotol\Lapiv;
 
 use Illuminate\Support\ServiceProvider;
 

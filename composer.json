@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "illuminate/support": "^6.0"
+        "illuminate/support": "^6.0|^7.0|^8.0"
     },
     "require-dev": {
         "orchestra/testbench": "^4.0",
@@ -25,18 +25,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Juliomotol\\Lapiv\\": "src"
+            "JulioMotol\\Lapiv\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Juliomotol\\Lapiv\\Tests\\": "tests"
+            "JulioMotol\\Lapiv\\Tests\\": "tests"
         }
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-
     },
     "config": {
         "sort-packages": true
@@ -44,10 +43,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Juliomotol\\Lapiv\\LapivServiceProvider"
+                "JulioMotol\\Lapiv\\LapivServiceProvider"
             ],
             "aliases": {
-                "Lapiv": "Juliomotol\\Lapiv\\LapivFacade"
+                "Lapiv": "JulioMotol\\Lapiv\\LapivFacade"
             }
         }
     }

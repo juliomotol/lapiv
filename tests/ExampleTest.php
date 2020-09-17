@@ -1,9 +1,9 @@
 <?php
 
-namespace Juliomotol\Lapiv\Tests;
+namespace JulioMotol\Lapiv\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Juliomotol\Lapiv\LapivServiceProvider;
+use JulioMotol\Lapiv\LapivServiceProvider;
 
 class ExampleTest extends TestCase
 {
