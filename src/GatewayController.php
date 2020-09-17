@@ -60,7 +60,7 @@ class GatewayController extends Controller
             case 'header':
                 $headerValue = $this->request->header($methodOptions['key']) ?? null;
                 $matches = [];
-                
+
                 preg_match($methodOptions['pattern'], $headerValue, $matches);
 
                 return $matches[1] ?? null;

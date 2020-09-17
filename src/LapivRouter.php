@@ -21,6 +21,17 @@ class LapivRouter
 
     private function getPrefix($prefix)
     {
-        return Str::start('lapiv.base_route', '/').Str::start('lapiv.uri.prefix', '/').Str::start($prefix, '/');
+        $prefix = $this->cleanUri(config('lapiv.base_route'));
+
+        if (config('lapiv.default') === 'uri') {
+            $prefix += $this->cleanUri(config('lapiv.method.uri.prefix'));
+        }
+
+        $prefix += $this->cleanUri($prefix);
+    }
+
+    private function cleanUri($uri)
+    {
+        return Str::start(trim($uri, '/'), '/');
     }
 }
