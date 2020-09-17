@@ -1,9 +1,11 @@
 {
     "name": "juliomotol/lapiv",
-    "description": "API Versioning Package for Laravell 6+",
+    "description": "API Versioning Package for Laravel 6+",
     "keywords": [
         "juliomotol",
-        "lapiv"
+        "lapiv",
+        "api",
+        "versioning"
     ],
     "homepage": "https://github.com/juliomotol/lapiv",
     "license": "MIT",
@@ -17,10 +19,13 @@
     ],
     "require": {
         "php": "^7.1",
+        "illuminate/contracts": "^6.0|^7.0|^8.0",
+        "illuminate/http": "^6.0|^7.0|^8.0",
+        "illuminate/routing": "^6.0|^7.0|^8.0",
         "illuminate/support": "^6.0|^7.0|^8.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0",
+        "orchestra/testbench": "^4.0|^5.0|^6.0",
         "phpunit/phpunit": "^8.0"
     },
     "autoload": {
