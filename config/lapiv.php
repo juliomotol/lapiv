@@ -30,7 +30,7 @@ return [
 
     'methods' => [
         'uri' => [
-            'prefix' => 'v{version:[\d]+}'
+            'prefix' => 'v{version}'
         ],
         'query_string' => [
             'key' => 'version'

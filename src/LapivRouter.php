@@ -21,15 +21,15 @@ class LapivRouter
 
     private function getPrefix($prefix)
     {
-        $prefix = $this->cleanUri(config('lapiv.base_route'));
+        $newPrefix = $this->cleanUri(config('lapiv.base_route'));
 
         if (config('lapiv.default') === 'uri') {
-            $prefix .= $this->cleanUri(config('lapiv.method.uri.prefix'));
+            $newPrefix .= $this->cleanUri(config('lapiv.methods.uri.prefix'));
         }
 
-        $prefix .= $this->cleanUri($prefix);
+        $newPrefix .= $this->cleanUri($prefix);
 
-        return $prefix;
+        return $newPrefix;
     }
 
     private function cleanUri($uri)
