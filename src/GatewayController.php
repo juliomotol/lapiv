@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Foo;
+namespace JulioMotol\Lapiv;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
