@@ -2,12 +2,14 @@
 
 namespace JulioMotol\Lapiv;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\ControllerDispatcher;
 use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
 use JulioMotol\Lapiv\Exceptions\InvalidVersionException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GatewayController extends Controller
 {
@@ -42,11 +44,15 @@ class GatewayController extends Controller
      */
     public function __call($method, $parameters)
     {
-        $version = $this->getVersion();
-        $controllerClass = $this->getControllerClassByVersion($version);
-        $controller = $this->container->make($controllerClass);
+        try {
+            $version = $this->getVersion();
+            $controllerClass = $this->getControllerClassByVersion($version);
+            $controller = $this->container->make($controllerClass);
 
-        return $this->controllerDispatcher->dispatch($this->request->route(), $controller, $method);
+            return $this->controllerDispatcher->dispatch($this->request->route(), $controller, $method);
+        } catch (BindingResolutionException $exception) {
+            throw new NotFoundHttpException;
+        }
     }
 
     private function getVersion()
@@ -67,11 +73,11 @@ class GatewayController extends Controller
                 $version = $headerValue = $this->request->header($methodOptions['key']) ?? null;
 
                 if ($methodOptions['pattern']) {
-                $matches = [];
+                    $matches = [];
 
-                preg_match($methodOptions['pattern'], $headerValue, $matches);
+                    preg_match($methodOptions['pattern'], $headerValue, $matches);
 
-                $version = $matches[1] ?? null;
+                    $version = $matches[1] ?? null;
                 }
                 break;
             default:
