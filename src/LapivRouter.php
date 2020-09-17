@@ -24,10 +24,12 @@ class LapivRouter
         $prefix = $this->cleanUri(config('lapiv.base_route'));
 
         if (config('lapiv.default') === 'uri') {
-            $prefix += $this->cleanUri(config('lapiv.method.uri.prefix'));
+            $prefix .= $this->cleanUri(config('lapiv.method.uri.prefix'));
         }
 
-        $prefix += $this->cleanUri($prefix);
+        $prefix .= $this->cleanUri($prefix);
+
+        return $prefix;
     }
 
     private function cleanUri($uri)
