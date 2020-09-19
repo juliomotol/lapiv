@@ -11,7 +11,6 @@ use JulioMotol\Lapiv\Tests\Controllers\Api\Foo\FooV1Controller;
 
 class GatewayControllerTest extends TestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
