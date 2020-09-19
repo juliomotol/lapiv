@@ -2,14 +2,12 @@
 
 namespace JulioMotol\Lapiv;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\ControllerDispatcher;
 use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
-use JulioMotol\Lapiv\Exceptions\InvalidVersionException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
 
 class GatewayController extends Controller
 {
@@ -44,15 +42,11 @@ class GatewayController extends Controller
      */
     public function __call($method, $parameters)
     {
-        try {
-            $version = $this->getVersion();
-            $controllerClass = $this->getControllerClassByVersion($version);
-            $controller = $this->container->make($controllerClass);
+        $version = $this->getVersion();
+        $controllerClass = $this->getControllerClassByVersion($version);
+        $controller = $this->container->make($controllerClass);
 
-            return $this->controllerDispatcher->dispatch($this->request->route(), $controller, $method);
-        } catch (BindingResolutionException $exception) {
-            throw new NotFoundHttpException;
-        }
+        return $this->controllerDispatcher->dispatch($this->request->route(), $controller, $method);
     }
 
     private function getVersion()
@@ -84,13 +78,17 @@ class GatewayController extends Controller
                 throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
         }
 
-        throw_if((!is_numeric($version) && $version <= 0), new InvalidVersionException('Version must be a valid number and not <= 0'));
+        throw_if((!is_numeric($version) && $version <= 0), new InvalidArgumentException('API Version must be a valid number and not <= 0'));
 
         return $version;
     }
 
     private function getControllerClassByVersion($version)
     {
-        return $this->apiControllers[$version - 1] ?? null;
+        $controller = $this->apiControllers[$version - 1] ?? null;
+
+        throw_if($controller, new NotFoundApiVersionException());
+
+        return $controller;
     }
 }
