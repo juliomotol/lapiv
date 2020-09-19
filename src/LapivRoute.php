@@ -5,7 +5,7 @@ namespace JulioMotol\Lapiv;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-class LapivRouter
+class LapivRoute
 {
     public function __invoke($prefix, $namespace = null, $callback = null)
     {
