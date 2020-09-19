@@ -1,11 +1,28 @@
 # Lapiv
 
+![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/juliomotol/lapiv/Run%20Laravel%206.x%20tests?event=push&label=Laravel%206%20Build&style=flat-square)
+![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/juliomotol/lapiv/Run%20Laravel%207.x%20tests?event=push&label=Laravel%207%20Build&style=flat-square)
+![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/juliomotol/lapiv/Run%20Laravel%208.x%20tests?event=push&label=Laravel%208%20Build&style=flat-square)
+[![StyleCI](https://github.styleci.io/repos/295691801/shield?branch=master)](https://github.styleci.io/repos/295691801?branch=master)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 [![Total Downloads](https://img.shields.io/packagist/dt/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 
-A Small Laravel 6+ package for a simple and easy API versioning that aims to remove the overhead of writing invidual routes per version implementation.
+A Small Laravel 6+ package for a simple and easy API versioning.
 
 > Lapiv simply stands for (L)aravel (API) (V)ersioning.
+
+## Table of Contents
+
+-   [Installation](#installation)
+-   [Config](#config)
+-   [Setup](#setup)
+    -   [Controller](#foov1controller.php)
+    -   [GatewayController](#foogatewaycontroller.php)
+    -   [Routing](#routing)
+-   [Versioning Methods](#versioning-methods)
+    -   [`uri` Method](#uri-method)
+    -   [`query_string` Method](#query_string-method)
+    -   [`header` Method](#header-method)
 
 ## Installation
 
@@ -17,15 +34,15 @@ composer require juliomotol/lapiv
 
 ## Config
 
-| Key                      | Default Value                                      | Description                                                                                                                                                     |
-| ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| default                  | `"uri"`                                            | The versioning method. Supports: "uri", "query_string", "header"                                                                                                |
-| methods.uri.prefix       | `"/v{version}"`                                    | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix)                                                               |
-| methods.query_string.key | `"v"`                                              | The query string key name for determining the version                                                                                                           |
-| methods.header.key       | `"Accept"`                                         | The header key name for determining the version                                                                                                                 |
-| methods.header.pattern   | `"/application\/vnd\.\${appSlug}\.v(\d\*)\+json/"` | The pattern for determining the version based on the given header value. See [Header value pattern](#header-value-pattern)                                      |
-| base_namespace           | `"\App\Http\Controllers\Api"`                      | The base namespace for your versioned API controllers                                                                                                           |
-| base_route               | `""`                                               | The base route prefix. (This is omitted by default since we expect you to place your api routes inside `routes/api.php`. Other wise, feel free to modify this.) |
+| Key                      | Default Value                                      | Description                                                                                                               |
+| ------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| default                  | `"uri"`                                            | The versioning method. Supports: "uri", "query_string", "header"                                                          |
+| methods.uri.prefix       | `"/v{version}"`                                    | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix)                         |
+| methods.query_string.key | `"v"`                                              | The query string key name for determining the version                                                                     |
+| methods.header.key       | `"Accept"`                                         | The header key name for determining the version                                                                           |
+| methods.header.pattern   | `"/application\/vnd\.\${appSlug}\.v(\d\*)\+json/"` | The pattern for determining the version based on the given header value. See [Header value pattern](#header-method)       |
+| base_namespace           | `"\App\Http\Controllers\Api"`                      | The base namespace for your versioned API controllers                                                                     |
+| base_route               | `""`                                               | The base route prefix. (This is omitted by default since we expect you to place your api routes inside `routes/api.php`.) |
 
 If you want to make changes in the configuration you can publish the config file using:
 
@@ -78,9 +95,9 @@ With our controllers ready to go, lets create our route. Go to `routes/api.php`
 ```php
 /**
  * Registers a versioned API endpoint.
- * 
+ *
  * Router::lapiv($prefix, $namespace, $callback, $config = null)
- * 
+ *
  * @param $prefix
  * @param $namespace
  * @param $callback
