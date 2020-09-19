@@ -78,7 +78,9 @@ class GatewayController extends Controller
                 throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
         }
 
-        throw_if((!is_numeric($version) && $version <= 0), new InvalidArgumentException('API Version must be a valid number and not <= 0'));
+        if (!is_numeric($version) && $version <= 0) {
+            throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
+        }
 
         return $version;
     }
@@ -87,7 +89,9 @@ class GatewayController extends Controller
     {
         $controller = $this->apiControllers[$version - 1] ?? null;
 
-        throw_if($controller, new NotFoundApiVersionException());
+        if (!$controller) {
+            throw new NotFoundApiVersionException();
+        }
 
         return $controller;
     }
