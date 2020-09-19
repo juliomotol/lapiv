@@ -17,7 +17,7 @@ class GatewayController extends Controller
     /** @var Illuminate\Routing\ControllerDispatcher */
     protected $controllerDispatcher;
 
-    /** @var  Illuminate\Contracts\Container\Container */
+    /** @var Illuminate\Contracts\Container\Container */
     protected $container;
 
     /** @var array */
@@ -52,7 +52,7 @@ class GatewayController extends Controller
     private function getVersion()
     {
         $method = config('lapiv.default');
-        $methodOptions = config('lapiv.methods.' . $method);
+        $methodOptions = config('lapiv.methods.'.$method);
 
         $version = null;
 
@@ -78,7 +78,7 @@ class GatewayController extends Controller
                 throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
         }
 
-        if (!is_numeric($version) && $version <= 0) {
+        if (! is_numeric($version) && $version <= 0) {
             throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
         }
 
@@ -89,7 +89,7 @@ class GatewayController extends Controller
     {
         $controller = $this->apiControllers[$version - 1] ?? null;
 
-        if (!$controller) {
+        if (! $controller) {
             throw new NotFoundApiVersionException();
         }
 

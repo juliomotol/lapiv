@@ -24,21 +24,21 @@ return [
     | Versioning Method Configurations.
     |--------------------------------------------------------------------------
     |
-    | The configurations for versioning methods. 
+    | The configurations for versioning methods.
     |
     */
 
     'methods' => [
         'uri' => [
-            'prefix' => 'v{version}'
+            'prefix' => 'v{version}',
         ],
         'query_string' => [
-            'key' => 'v'
+            'key' => 'v',
         ],
         'header' => [
             'key' => 'Accept',
-            'pattern' => "/application\/vnd\.${appSlug}\.v(\d*)\+json/"
-        ]
+            'pattern' => "/application\/vnd\.${appSlug}\.v(\d*)\+json/",
+        ],
     ],
 
     /*

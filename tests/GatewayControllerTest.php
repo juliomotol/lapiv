@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
 use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
 use JulioMotol\Lapiv\Tests\Controllers\Api\Foo\FooV1Controller;
-use Symfony\Component\HttpFoundation\AcceptHeader;
 
 class GatewayControllerTest extends TestCase
 {
@@ -55,7 +54,7 @@ class GatewayControllerTest extends TestCase
         $this->registerRoute();
 
         $response = $this->getJson('foo', [
-            'Accept' => 'application/vnd.laravel.v1+json'
+            'Accept' => 'application/vnd.laravel.v1+json',
         ]);
 
         $response->assertSuccessful();
@@ -100,7 +99,7 @@ class GatewayControllerTest extends TestCase
     /** @test */
     public function it_throws_exception_when_version_action_not_found()
     {
-        $this->registerRoute(function(){
+        $this->registerRoute(function () {
             Route::get('/bar', 'FooGatewayController@bar');
         });
 

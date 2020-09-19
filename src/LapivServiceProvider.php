@@ -17,7 +17,7 @@ class LapivServiceProvider extends ServiceProvider
                 __DIR__.'/../config/lapiv.php' => config_path('lapiv.php'),
             ], 'config');
         }
-        
+
         Route::macro('lapiv', new LapivRoute);
     }
 
