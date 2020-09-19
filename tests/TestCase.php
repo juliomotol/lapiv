@@ -2,20 +2,13 @@
 
 namespace JulioMotol\Lapiv\Tests;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use JulioMotol\Lapiv\LapivServiceProvider;
 
-class ExampleTest extends TestCase
+abstract class TestCase extends BaseTestCase
 {
-
     protected function getPackageProviders($app)
     {
         return [LapivServiceProvider::class];
-    }
-    
-    /** @test */
-    public function true_is_true()
-    {
-        $this->assertTrue(true);
     }
 }
