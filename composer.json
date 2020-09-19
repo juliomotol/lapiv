@@ -1,6 +1,6 @@
 {
     "name": "juliomotol/lapiv",
-    "description": "API Versioning Package for Laravel 6+",
+    "description": "A small Laravel 6+ for a simple and easy API versioning",
     "keywords": [
         "juliomotol",
         "lapiv",

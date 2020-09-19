@@ -1,4 +1,4 @@
-# Very short description of the package
+# Lapiv
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 [![Total Downloads](https://img.shields.io/packagist/dt/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
@@ -17,15 +17,15 @@ composer require juliomotol/lapiv
 
 ## Config
 
-| Key                       | Default Value                                    | Description                                                                                                                                                     |
-| ------------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| "default"                 | "uri"                                            | The versioning method. Supports: "uri", "query_string", "header"                                                                                                |
-| "method.uri.prefix"       | "/v{version}"                                    | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix)                                                               |
-| "method.query_string.key" | "v"                                              | The query string key name for determining the version                                                                                                           |
-| "method.header.key"       | "Accept"                                         | The header key name for determining the version                                                                                                                 |
-| "method.header.pattern"   | "/application\/vnd\.\${appSlug}\.v(\d\*)\+json/" | The pattern for determining the version based on the given header value. See [Header value pattern](#header-value-pattern)                                      |
-| "base_namespace"          | "\App\Http\Controllers\Api"                      | The base namespace for your versioned API controllers                                                                                                           |
-| "base_route"              | ""                                               | The base route prefix. (This is omitted by default since we expect you to place your api routes inside `routes/api.php`. Other wise, feel free to modify this.) |
+| Key                      | Default Value                                      | Description                                                                                                                                                     |
+| ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| default                  | `"uri"`                                            | The versioning method. Supports: "uri", "query_string", "header"                                                                                                |
+| methods.uri.prefix       | `"/v{version}"`                                    | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix)                                                               |
+| methods.query_string.key | `"v"`                                              | The query string key name for determining the version                                                                                                           |
+| methods.header.key       | `"Accept"`                                         | The header key name for determining the version                                                                                                                 |
+| methods.header.pattern   | `"/application\/vnd\.\${appSlug}\.v(\d\*)\+json/"` | The pattern for determining the version based on the given header value. See [Header value pattern](#header-value-pattern)                                      |
+| base_namespace           | `"\App\Http\Controllers\Api"`                      | The base namespace for your versioned API controllers                                                                                                           |
+| base_route               | `""`                                               | The base route prefix. (This is omitted by default since we expect you to place your api routes inside `routes/api.php`. Other wise, feel free to modify this.) |
 
 If you want to make changes in the configuration you can publish the config file using:
 
@@ -76,6 +76,15 @@ class FooGatewayController extends GatewayController
 With our controllers ready to go, lets create our route. Go to `routes/api.php`
 
 ```php
+/**
+ * Registers a versioned API endpoint.
+ * 
+ * Router::lapiv($prefix, $namespace, $callback, $config = null)
+ * 
+ * @param $prefix
+ * @param $namespace
+ * @param $callback
+ */
 Route::lapiv('foo', 'Foo', function () {
     Route::get('/', 'FooGatewayController@index');
 });
@@ -97,7 +106,7 @@ This package supports 3 types of API Versioning methods namely `uri`, `query_str
 
 ### `uri` Method
 
-This is the default of the versioning method. Here, the API version should be declared in the uri path (e.g. `example.com/api/v1/foo`).
+This is the default of the versioning method. Here, the API version will be declared in the uri path (e.g. `example.com/api/v1/foo`).
 
 In the config, you can change the prefix for the uri.
 
@@ -113,21 +122,21 @@ In the config, you can change the prefix for the uri.
 
 ### `query_string` Method
 
-Here, the API version should be declared in the query string (e.g. `example.com/api/foo?v=1`).
+Here, the API version will be declared in the query string (e.g. `example.com/api/foo?v=1`).
 
 In the config, you can change the query string key.
 
 ```php
 "methods" => [
     "query_string" => [
-        "key" => 'version' // will generate `example.com/api/foo?version=1`
+        "key" => 'version' // will accept `example.com/api/foo?version=1`
     ]
 ]
 ```
 
 ### `header` Method
 
-Here the API version should be declared in the headers. By the default it will be checking the `Accept` header with a pattern of `/application\/vnd\.\${appSlug}\.v(\d\*)\+json/` where the \$appSlug is a snake case of your `APP_NAME`.
+Here the API version will be declared in the headers. By the default it will be checking the `Accept` header with a pattern of `/application\/vnd\.\${appSlug}\.v(\d\*)\+json/` where the \$appSlug is a snake case of your `APP_NAME`.
 
 ```php
 "methods" => [
@@ -140,7 +149,7 @@ Here the API version should be declared in the headers. By the default it will b
 
 This will now accept a `Accept-version=1` header.
 
-> Applying a different pattern, dont forget to capture the version number with `(\d)+`
+> When applying a different pattern, dont forget to capture the version number with `(\d*)`
 
 ## Changelog
 
