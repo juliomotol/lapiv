@@ -19,6 +19,7 @@ A Small Laravel 6+ package for a simple and easy API versioning.
     -   [Controller](#foov1controller.php)
     -   [GatewayController](#foogatewaycontroller.php)
     -   [Routing](#routing)
+    -   [Bumping a version](#bumping-a-version)
 -   [Versioning Methods](#versioning-methods)
     -   [`uri` Method](#uri-method)
     -   [`query_string` Method](#query_string-method)
@@ -66,7 +67,21 @@ Assuming you will be using the default configuration, we suggest you to follow t
 
 ### `FooV1Controller.php`
 
-This is very much like your standard controller. Nothing special here really.
+This is very much like your standard controller. Nothing special here really. All action methods must be declared here e.g. `index`, `create`, `show`, etc.
+
+```php
+namespace App\Http\Controllers\Api\Foo;
+
+use App\Http\Controllers\Controller;
+
+class FooV1Controller extends Controller
+{
+    public function index()
+    {
+        return response()->json(['message' => 'This is Foo V1']);
+    }
+}
+```
 
 ### `FooGatewayController.php`
 
@@ -116,6 +131,10 @@ When you run `php artisan route:list` you should see this.
 | GET\|HEAD | api/v{version}/foo | App\Http\Controllers\Api\Foo\FooGatewayController@index |
 
 Now, when we try to go to `/api/v1/foo`, it should be handled by `FooV1Controller`.
+
+### Bumping a version
+
+When your ready to bump your API version to v2, Simply add a new `FooV2Controller` and dont forget to add that to `FooGatewayController`'s `$apiControllers`.
 
 ## Versioning Methods
 
