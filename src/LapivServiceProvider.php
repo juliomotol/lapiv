@@ -2,7 +2,7 @@
 
 namespace JulioMotol\Lapiv;
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class LapivServiceProvider extends ServiceProvider
@@ -18,7 +18,7 @@ class LapivServiceProvider extends ServiceProvider
             ], 'config');
         }
 
-        Route::macro('lapiv', new LapivRoute);
+        $this->registerMacroHelpers();
     }
 
     /**
@@ -28,5 +28,14 @@ class LapivServiceProvider extends ServiceProvider
     {
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/lapiv.php', 'lapiv');
+    }
+    
+    protected function registerMacroHelpers()
+    {
+        if (! class_exists(Router::class, 'macro')) { // Lumen
+            return;
+        }
+
+        Router::macro('lapiv', new LapivRoute);
     }
 }
