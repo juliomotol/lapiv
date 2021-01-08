@@ -36,6 +36,6 @@ class LapivServiceProvider extends ServiceProvider
             return;
         }
 
-        Router::macro('lapiv', new LapivRoute);
+        Router::macro('lapiv', new LapivRouter);
     }
 }

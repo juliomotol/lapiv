@@ -5,7 +5,7 @@ namespace JulioMotol\Lapiv;
 use Illuminate\Support\Facades\Route;
 use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
 
-class LapivRoute
+class LapivRouter
 {
     public function __invoke($callback = null)
     {
