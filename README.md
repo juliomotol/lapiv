@@ -34,13 +34,11 @@ composer require juliomotol/lapiv
 
 ## Config
 
-| Key                      | Default Value                 | Description                                                                                                               |
-| ------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| default                  | `"uri"`                       | The versioning method. Supports: "uri", "query_string".                                                                   |
-| methods.uri.prefix       | `"v{version}"`                | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix)                         |
-| methods.query_string.key | `"v"`                         | The query string key name for determining the version                                                                     |
-| base_namespace           | `"\App\Http\Controllers\Api"` | The base namespace for your versioned API controllers                                                                     |
-| base_route               | `""`                          | The base route prefix. (This is omitted by default since we expect you to place your api routes inside `routes/api.php`.) |
+| Key                      | Default Value  | Description                                                                                       |
+| ------------------------ | -------------- | ------------------------------------------------------------------------------------------------- |
+| default                  | `"uri"`        | The versioning method. Supports: "uri", "query_string".                                           |
+| methods.uri.prefix       | `"v{version}"` | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix) |
+| methods.query_string.key | `"v"`          | The query string key name for determining the version                                             |
 
 If you want to make changes in the configuration you can publish the config file using:
 
@@ -57,9 +55,8 @@ Assuming you will be using the default configuration, we suggest you to follow t
     +-- Http
         +-- Controllers
             +-- Api
-                +-- Foo
-                    +-- FooGatewayController.php
-                    +-- FooV1Controller.php
+                +-- FooGatewayController.php
+                +-- FooV1Controller.php
 ```
 
 ### `FooV1Controller.php`
@@ -98,7 +95,7 @@ class FooGatewayController extends GatewayController
 }
 ```
 
-> The order in `$apiControllers` is critical. The first controller declared will be our `v1`, second will be `v2`, and so on.
+> The order in `$apiControllers` is critical. The first controller declared will be our `v1`, then will be `v2`, and so on.
 
 ### Routing
 
@@ -108,24 +105,29 @@ With our controllers ready to go, lets create our route. Go to `routes/api.php`
 /**
  * Registers a versioned API endpoint.
  *
- * Router::lapiv($prefix, $namespace, $callback, $config = null)
+ * Router::lapiv($callback = null)
  *
- * @param $prefix
- * @param $namespace
  * @param $callback
  */
-Route::lapiv('foo', 'Foo', function () {
-    Route::get('/', 'FooGatewayController@index');
+Route::lapiv(function () {
+    Route::get('/foo', 'FooGatewayController@index');
+    Route::get('/bar', 'BarGatewayController@index');
 });
+
+// Or if you fancy chaining...
+
+Route::lapiv()->get('/foo', 'FooGatewayController@index');
+Route::lapiv()->get('/bar', 'BarGatewayController@index');
 ```
 
 Notice we didn't point to the `FooV1Controller@index`. As we've said, the `FooGatewayController` will be doing much of the heavy work, so we'll just call that instead.
 
 When you run `php artisan route:list` you should see this.
 
-| Method    | URI                | Action                                                  |
-| --------- | ------------------ | ------------------------------------------------------- |
-| GET\|HEAD | api/v{version}/foo | App\Http\Controllers\Api\Foo\FooGatewayController@index |
+| Method    | URI                | Action                                              |
+| --------- | ------------------ | --------------------------------------------------- |
+| GET\|HEAD | api/v{version}/foo | App\Http\Controllers\Api\FooGatewayController@index |
+| GET\|HEAD | api/v{version}/bar | App\Http\Controllers\Api\BarGatewayController@index |
 
 Now, when we try to go to `/api/v1/foo`, it should be handled by `FooV1Controller`.
 
@@ -135,7 +137,7 @@ When your ready to bump your API version to v2, Simply add a new `FooV2Controlle
 
 ## Versioning Methods
 
-This package supports 3 types of API Versioning methods, `uri` and `query_string`.
+This package supports 2 types of API Versioning methods, `uri` and `query_string`.
 
 ### `uri` Method
 
@@ -151,7 +153,7 @@ In the config, you can change the prefix for the uri.
 ]
 ```
 
-> Don't forget to add the `version` parameter for the prefix.
+> Don't forget to add the `version` parameter in the prefix.
 
 ### `query_string` Method
 

@@ -3,37 +3,33 @@
 namespace JulioMotol\Lapiv;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
+use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
 
 class LapivRoute
 {
-    public function __invoke($prefix, $namespace = null, $callback = null)
+    public function __invoke($callback = null)
     {
-        Route::namespace($this->getNamespace($namespace))
-            ->prefix($this->getPrefix($prefix))
-            ->group($callback);
-    }
-
-    private function getNamespace($namespace)
-    {
-        return config('lapiv.base_namespace').Str::start($namespace, '\\');
-    }
-
-    private function getPrefix($prefix)
-    {
-        $newPrefix = $this->cleanUri(config('lapiv.base_route'));
-
-        if (config('lapiv.default') === 'uri') {
-            $newPrefix .= $this->cleanUri(config('lapiv.methods.uri.prefix'));
+        switch ($method = config('lapiv.default')) {
+            case 'uri':
+                return $this->handleApiVersioning($callback);
+            case 'query_string':
+                return $this->handleQueryStringVersioning($callback);
+            default:
+                throw new InvalidArgumentException('"' . $method . '" is not a valid versioning method.');
         }
-
-        $newPrefix .= $this->cleanUri($prefix);
-
-        return $newPrefix;
     }
 
-    private function cleanUri($uri)
+    protected function handleApiVersioning($callback = null)
     {
-        return Str::start(trim($uri, '/'), '/');
+        return $callback
+            ? Route::group(['prefix' => config('lapiv.methods.uri.prefix')], $callback)
+            : Route::prefix(config('lapiv.methods.uri.prefix'));
+    }
+
+    protected function handleQueryStringVersioning($callback = null)
+    {
+        return $callback
+            ? Route::group([], $callback)
+            : Route::prefix('/');
     }
 }

@@ -2,12 +2,10 @@
 
 namespace JulioMotol\Lapiv\Tests;
 
-use BadMethodCallException;
-use Closure;
 use Illuminate\Support\Facades\Route;
 use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
 use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
-use JulioMotol\Lapiv\Tests\Controllers\Api\Foo\FooV1Controller;
+use JulioMotol\Lapiv\Tests\Controllers\Api\FooV1Controller;
 
 class GatewayControllerTest extends TestCase
 {
@@ -15,10 +13,7 @@ class GatewayControllerTest extends TestCase
     {
         parent::setUp();
 
-        config([
-            'lapiv.base_namespace' => '\JulioMotol\Lapiv\Tests\Controllers\Api',
-            'app.debug' => true,
-        ]);
+        config(['app.debug' => true]);
     }
 
     /** @test */
@@ -43,19 +38,6 @@ class GatewayControllerTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertEquals(FooV1Controller::RESPONSE_MESSAGE, $response->getContent());
-    }
-
-    /** @test */
-    public function it_throws_exception_when_invalid_versioning_method_given()
-    {
-        config(['lapiv.default' => 'invalid']);
-
-        $this->registerRoute();
-
-        $response = $this->getJson('foo');
-
-        $response->assertStatus(500);
-        $this->assertEquals(InvalidArgumentException::class, $response->json('exception'));
     }
 
     /** @test */
@@ -84,23 +66,26 @@ class GatewayControllerTest extends TestCase
     public function it_throws_exception_when_version_action_not_found()
     {
         $this->registerRoute(function () {
-            Route::get('/bar', 'FooGatewayController@bar');
+            Route::get('/foo/bar', 'FooGatewayController@bar');
         });
 
         $response = $this->getJson('v1/foo/bar');
 
         $response->assertStatus(500);
-        $this->assertEquals(BadMethodCallException::class, $response->json('exception'));
+        $this->assertEquals(\BadMethodCallException::class, $response->json('exception'));
     }
 
-    private function registerRoute(Closure $closure = null)
+    private function registerRoute(\Closure $closure = null)
     {
-        Route::lapiv('foo', 'Foo', function () use ($closure) {
-            Route::get('/', 'FooGatewayController@index');
+        Route::namespace('\JulioMotol\Lapiv\Tests\Controllers\Api')
+            ->group(
+                fn () => Route::lapiv(function () use ($closure) {
+                    Route::get('foo', 'FooGatewayController@index');
 
-            if ($closure) {
-                call_user_func($closure);
-            }
-        });
+                    if ($closure) {
+                        call_user_func($closure);
+                    }
+                })
+            );
     }
 }

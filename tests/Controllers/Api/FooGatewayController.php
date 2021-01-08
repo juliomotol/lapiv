@@ -1,6 +1,6 @@
 <?php
 
-namespace JulioMotol\Lapiv\Tests\Controllers\Api\Foo;
+namespace JulioMotol\Lapiv\Tests\Controllers\Api;
 
 use JulioMotol\Lapiv\GatewayController;
 
