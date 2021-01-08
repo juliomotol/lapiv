@@ -42,11 +42,11 @@ class GatewayController extends Controller
      */
     public function __call($method, $parameters)
     {
-        $version = $this->getVersion();
-        $controllerClass = $this->getControllerClassByVersion($version);
-        $controller = $this->container->make($controllerClass);
-
-        return $this->controllerDispatcher->dispatch($this->request->route(), $controller, $method);
+        return $this->controllerDispatcher->dispatch(
+            $this->request->route(),
+            $this->getControllerByVersion($this->getVersion()),
+            $method
+        );
     }
 
     private function getVersion()
@@ -58,11 +58,11 @@ class GatewayController extends Controller
 
         switch ($method) {
             case 'uri':
-                $version = $this->request->route()->parameter('version', null);
+                $version = $this->request->route('version', null);
 
                 break;
             case 'query_string':
-                $version = $this->request[$methodOptions['key']] ?? null;
+                $version = $this->request->input($methodOptions['key']) ?? null;
 
                 break;
             default:
@@ -76,7 +76,7 @@ class GatewayController extends Controller
         return $version;
     }
 
-    private function getControllerClassByVersion($version)
+    private function getControllerByVersion($version)
     {
         $controller = $this->apiControllers[$version - 1] ?? null;
 
@@ -84,6 +84,6 @@ class GatewayController extends Controller
             throw new NotFoundApiVersionException();
         }
 
-        return $controller;
+        return $this->container->make($controller);
     }
 }
