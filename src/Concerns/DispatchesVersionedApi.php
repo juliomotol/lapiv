@@ -21,7 +21,7 @@ trait DispatchesVersionedApi
      *
      * @param  string  $method
      * @param  array  $parameters
-     * 
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -54,7 +54,7 @@ trait DispatchesVersionedApi
                 throw new InvalidArgumentException('"' . $method . '" is not a valid versioning method.');
         }
 
-        if (!is_numeric($version) || $version <= 0) {
+        if (! is_numeric($version) || $version <= 0) {
             throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
         }
 
@@ -65,7 +65,7 @@ trait DispatchesVersionedApi
     {
         $controller = $this->apiControllers[$version - 1] ?? null;
 
-        if (!$controller) {
+        if (! $controller) {
             throw new NotFoundApiVersionException();
         }
 
