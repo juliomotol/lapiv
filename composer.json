@@ -1,6 +1,6 @@
 {
     "name": "juliomotol/lapiv",
-    "description": "A small Laravel 6+ for a simple and easy API versioning",
+    "description": "API versioning for Laravel made easy",
     "keywords": [
         "juliomotol",
         "lapiv",
@@ -14,19 +14,19 @@
         {
             "name": "Julio Motol",
             "email": "julio.motol89@gmail.com",
-            "role": "Developer"
+            "homepage": "https://juliomotol.github.io"
         }
     ],
     "require": {
-        "php": "^7.1",
-        "illuminate/contracts": "^6.0|^7.0|^8.0",
-        "illuminate/http": "^6.0|^7.0|^8.0",
-        "illuminate/routing": "^6.0|^7.0|^8.0",
-        "illuminate/support": "^6.0|^7.0|^8.0"
+        "php": "^7.3|^8.0",
+        "illuminate/contracts": "^8.0",
+        "illuminate/http": "^8.0",
+        "illuminate/routing": "^8.0",
+        "illuminate/support": "^8.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0|^5.0|^6.0",
-        "phpunit/phpunit": "^8.0"
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.3"
     },
     "autoload": {
         "psr-4": {
@@ -39,7 +39,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
+        "test": "vendor/bin/phpunit --colors=always",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
@@ -54,5 +54,7 @@
                 "Lapiv": "JulioMotol\\Lapiv\\LapivFacade"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
