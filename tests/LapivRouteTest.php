@@ -19,7 +19,9 @@ class LapivRouteTest extends TestCase
     /** @test */
     public function it_can_register_api_routes_with_uri_method()
     {
-        $route = Route::lapiv()->get('/', fn () => 'lapiv')->name('uri-versioning');
+        $route = Route::lapiv()->get('/', function () {
+            return 'lapiv';
+        })->name('uri-versioning');
 
         $registeredRoute = collect($this->router->getRoutes())->first();
 
@@ -34,8 +36,12 @@ class LapivRouteTest extends TestCase
         $routes = [];
 
         $route = Route::lapiv(function () use (&$routes) {
-            $routes[0] = Route::get('/foo', fn () => 'foo')->name('foo');
-            $routes[1] = Route::get('/bar', fn () => 'bar')->name('bar');
+            $routes[0] = Route::get('/foo', function () {
+                return 'foo';
+            })->name('foo');
+            $routes[1] = Route::get('/bar', function () {
+                return 'bar';
+            })->name('bar');
         });
 
         $registeredRoutes = collect($this->router->getRoutes())->all();
@@ -52,7 +58,9 @@ class LapivRouteTest extends TestCase
     {
         config(['lapiv.default' => 'query_string']);
 
-        $route = Route::lapiv()->get('/', fn () => 'lapiv')->name('query-string-versioning');
+        $route = Route::lapiv()->get('/', function () {
+            return 'lapiv';
+        })->name('query-string-versioning');
 
         $registeredRoute = collect($this->router->getRoutes())->first();
 
@@ -69,8 +77,12 @@ class LapivRouteTest extends TestCase
         $routes = [];
 
         Route::lapiv(function () use (&$routes) {
-            $routes[0] = Route::get('/foo', fn () => 'foo')->name('foo');
-            $routes[1] = Route::get('/bar', fn () => 'bar')->name('bar');
+            $routes[0] = Route::get('/foo', function () {
+                return 'foo';
+            })->name('foo');
+            $routes[1] = Route::get('/bar', function () {
+                return 'bar';
+            })->name('bar');
         });
 
         $registeredRoutes = collect($this->router->getRoutes())->all();
