@@ -25,7 +25,7 @@ class GatewayController extends Controller
 
     /**
      * Create an ApiController Instance.
-     * 
+     *
      * @param Request $request
      * @param ControllerDispatcher $controllerDispatcher
      * @param Container $container
@@ -86,7 +86,7 @@ class GatewayController extends Controller
 
     /**
      * @param string|int $version
-     * 
+     *
      * @return Controller
      */
     private function getControllerByVersion($version)

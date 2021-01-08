@@ -9,7 +9,7 @@ class LapivRouter
 {
     /**
      * @param \Closure $callback
-     * 
+     *
      * @return \Illuminate\Routing\Route|\Illuminate\Routing\Router|\Illuminate\Routing\RouteRegistrar
      */
     public function __invoke($callback = null)
@@ -26,7 +26,7 @@ class LapivRouter
 
     /**
      * @param \Closure $callback
-     * 
+     *
      * @return \Illuminate\Routing\Route|\Illuminate\Routing\Router|\Illuminate\Routing\RouteRegistrar
      */
     protected function handleApiVersioning($callback = null)
@@ -38,7 +38,7 @@ class LapivRouter
 
     /**
      * @param \Closure $callback
-     * 
+     *
      * @return Illuminate\Routing\Route|\Illuminate\Routing\Router|\Illuminate\Routing\RouteRegistrar
      */
     protected function handleQueryStringVersioning($callback = null)
