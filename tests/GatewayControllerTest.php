@@ -46,21 +46,6 @@ class GatewayControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_handle_api_versioned_route_actions_with_header_versioning_method()
-    {
-        config(['lapiv.default' => 'header']);
-
-        $this->registerRoute();
-
-        $response = $this->getJson('foo', [
-            'Accept' => 'application/vnd.laravel.v1+json',
-        ]);
-
-        $response->assertSuccessful();
-        $this->assertEquals(FooV1Controller::RESPONSE_MESSAGE, $response->getContent());
-    }
-
-    /** @test */
     public function it_throws_exception_when_invalid_versioning_method_given()
     {
         config(['lapiv.default' => 'invalid']);

@@ -23,7 +23,6 @@ A Small Laravel 6+ package for a simple and easy API versioning.
 -   [Versioning Methods](#versioning-methods)
     -   [`uri` Method](#uri-method)
     -   [`query_string` Method](#query_string-method)
-    -   [`header` Method](#header-method)
 
 ## Installation
 
@@ -35,15 +34,13 @@ composer require juliomotol/lapiv
 
 ## Config
 
-| Key                      | Default Value                                      | Description                                                                                                               |
-| ------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| default                  | `"uri"`                                            | The versioning method. Supports: "uri", "query_string", "header"                                                          |
-| methods.uri.prefix       | `"/v{version}"`                                    | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix)                         |
-| methods.query_string.key | `"v"`                                              | The query string key name for determining the version                                                                     |
-| methods.header.key       | `"Accept"`                                         | The header key name for determining the version                                                                           |
-| methods.header.pattern   | `"/application\/vnd\.\${appSlug}\.v(\d\*)\+json/"` | The pattern for determining the version based on the given header value. See [Header value pattern](#header-method)       |
-| base_namespace           | `"\App\Http\Controllers\Api"`                      | The base namespace for your versioned API controllers                                                                     |
-| base_route               | `""`                                               | The base route prefix. (This is omitted by default since we expect you to place your api routes inside `routes/api.php`.) |
+| Key                      | Default Value                 | Description                                                                                                               |
+| ------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| default                  | `"uri"`                       | The versioning method. Supports: "uri", "query_string".                                                                   |
+| methods.uri.prefix       | `"v{version}"`                | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix)                         |
+| methods.query_string.key | `"v"`                         | The query string key name for determining the version                                                                     |
+| base_namespace           | `"\App\Http\Controllers\Api"` | The base namespace for your versioned API controllers                                                                     |
+| base_route               | `""`                          | The base route prefix. (This is omitted by default since we expect you to place your api routes inside `routes/api.php`.) |
 
 If you want to make changes in the configuration you can publish the config file using:
 
@@ -138,7 +135,7 @@ When your ready to bump your API version to v2, Simply add a new `FooV2Controlle
 
 ## Versioning Methods
 
-This package supports 3 types of API Versioning methods namely `uri`, `query_string`, and `header`.
+This package supports 3 types of API Versioning methods, `uri` and `query_string`.
 
 ### `uri` Method
 
@@ -169,23 +166,6 @@ In the config, you can change the query string key.
     ]
 ]
 ```
-
-### `header` Method
-
-Here the API version will be declared in the headers. By the default it will be checking the `Accept` header with a pattern of `/application\/vnd\.\${appSlug}\.v(\d\*)\+json/` where the \$appSlug is a snake case of your `APP_NAME`.
-
-```php
-"methods" => [
-    "header" => [
-        "key" => 'Accept-version',
-        "pattern" => null // giving `null` will assume that you are expecting a number.
-    ]
-]
-```
-
-This will now accept a `Accept-version=1` header.
-
-> When applying a different pattern, dont forget to capture the version number with `(\d*)`
 
 ## Changelog
 

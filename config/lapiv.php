@@ -13,7 +13,7 @@ return [
     |
     | This option controls the default versioning method for your API routes.
     |
-    | Supported: "uri", "query_string", "header"
+    | Supported: "uri", "query_string"
     |
     */
 
@@ -34,10 +34,6 @@ return [
         ],
         'query_string' => [
             'key' => 'v',
-        ],
-        'header' => [
-            'key' => 'Accept',
-            'pattern' => "/application\/vnd\.${appSlug}\.v(\d*)\+json/",
         ],
     ],
 

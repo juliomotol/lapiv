@@ -35,20 +35,4 @@ class LapivRouteTest extends TestCase
 
         $response->assertSuccessful();
     }
-
-    /** @test */
-    public function it_can_register_api_versioned_routes_with_header_method()
-    {
-        config(['lapiv.default' => 'header']);
-
-        Route::lapiv('foo', 'Foo', function () {
-            Route::get('/', function () {
-                return 'lapiv';
-            });
-        });
-
-        $response = $this->getJson('/foo');
-
-        $response->assertSuccessful();
-    }
 }
