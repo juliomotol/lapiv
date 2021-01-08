@@ -6,22 +6,14 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\ControllerDispatcher;
-use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
-use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
+use JulioMotol\Lapiv\Concerns\DispatchesVersionedApi;
 
 class GatewayController extends Controller
 {
-    /** @var Illuminate\Http\Request */
-    protected $request;
+    use DispatchesVersionedApi;
 
     /** @var Illuminate\Routing\ControllerDispatcher */
     protected $controllerDispatcher;
-
-    /** @var Illuminate\Contracts\Container\Container */
-    protected $container;
-
-    /** @var array */
-    protected $apiControllers = [];
 
     /**
      * Create an ApiController Instance.
@@ -33,57 +25,8 @@ class GatewayController extends Controller
         $this->container = $container;
     }
 
-    /**
-     * Handle calls to missing methods on the controller.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
+    protected function dispatch($controller, $method)
     {
-        $version = $this->getVersion();
-        $controllerClass = $this->getControllerClassByVersion($version);
-        $controller = $this->container->make($controllerClass);
-
         return $this->controllerDispatcher->dispatch($this->request->route(), $controller, $method);
-    }
-
-    private function getVersion()
-    {
-        $method = config('lapiv.default');
-        $methodOptions = config('lapiv.methods.'.$method);
-
-        $version = null;
-
-        switch ($method) {
-            case 'uri':
-                $version = $this->request->route()->parameter('version', null);
-
-                break;
-            case 'query_string':
-                $version = $this->request[$methodOptions['key']] ?? null;
-
-                break;
-            default:
-                throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
-        }
-
-        if (! is_numeric($version) || $version <= 0) {
-            throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
-        }
-
-        return $version;
-    }
-
-    private function getControllerClassByVersion($version)
-    {
-        $controller = $this->apiControllers[$version - 1] ?? null;
-
-        if (! $controller) {
-            throw new NotFoundApiVersionException();
-        }
-
-        return $controller;
     }
 }

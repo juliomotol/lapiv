@@ -18,7 +18,7 @@ class LapivServiceProvider extends ServiceProvider
             ], 'config');
         }
 
-        Route::macro('lapiv', new LapivRoute);
+        $this->registerMacroHelpers();
     }
 
     /**
@@ -28,5 +28,14 @@ class LapivServiceProvider extends ServiceProvider
     {
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/lapiv.php', 'lapiv');
+    }
+    
+    protected function registerMacroHelpers()
+    {
+        if (! method_exists(\Illuminate\Routing\Route::class, 'macro')) { // Lumen
+            return;
+        }
+
+        Route::macro('lapiv', new LapivRoute);
     }
 }
