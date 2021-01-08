@@ -2,12 +2,12 @@
 
 namespace JulioMotol\Lapiv\Tests;
 
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 class LapivRouteTest extends TestCase
 {
-    protected Router $router;
+    /** @var \Illuminate\Routing\Router */
+    protected $router;
 
     protected function setUp(): void
     {
