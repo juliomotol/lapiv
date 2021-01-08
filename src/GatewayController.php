@@ -59,9 +59,11 @@ class GatewayController extends Controller
         switch ($method) {
             case 'uri':
                 $version = $this->request->route()->parameter('version', null);
+
                 break;
             case 'query_string':
                 $version = $this->request[$methodOptions['key']] ?? null;
+
                 break;
             case 'header':
                 $version = $headerValue = $this->request->header($methodOptions['key']) ?? null;
@@ -73,6 +75,7 @@ class GatewayController extends Controller
 
                     $version = $matches[1] ?? null;
                 }
+
                 break;
             default:
                 throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
