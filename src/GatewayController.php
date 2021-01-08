@@ -78,7 +78,7 @@ class GatewayController extends Controller
                 throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
         }
 
-        if (! is_numeric($version) && $version <= 0) {
+        if (! is_numeric($version) || $version <= 0) {
             throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
         }
 
