@@ -20,7 +20,7 @@ class LumenGatewayController extends Controller
         $this->container = $container;
     }
 
-    protected function dispatch($controller, $method)
+    protected function callApiVersionAction($controller, $method)
     {
         return $this->container->call([$controller, $method]);
     }

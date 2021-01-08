@@ -29,10 +29,10 @@ trait DispatchesVersionedApi
         $version = $this->getVersion();
         $controller = $this->getControllerByVersion($version);
 
-        return $this->dispatch($controller, $method);
+        return $this->callApiVersionAction($controller, $method);
     }
 
-    abstract protected function dispatch($controller, $method);
+    abstract protected function callApiVersionAction($controller, $method);
 
     protected function getVersion()
     {

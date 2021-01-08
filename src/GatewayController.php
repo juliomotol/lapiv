@@ -25,7 +25,7 @@ class GatewayController extends Controller
         $this->container = $container;
     }
 
-    protected function dispatch($controller, $method)
+    protected function callApiVersionAction($controller, $method)
     {
         return $this->controllerDispatcher->dispatch($this->request->route(), $controller, $method);
     }
