@@ -11,13 +11,13 @@ use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
 
 class GatewayController extends Controller
 {
-    /** @var Illuminate\Http\Request */
+    /** @var Request */
     protected $request;
 
-    /** @var Illuminate\Routing\ControllerDispatcher */
+    /** @var ControllerDispatcher */
     protected $controllerDispatcher;
 
-    /** @var Illuminate\Contracts\Container\Container */
+    /** @var Container */
     protected $container;
 
     /** @var array */
@@ -25,6 +25,10 @@ class GatewayController extends Controller
 
     /**
      * Create an ApiController Instance.
+     * 
+     * @param Request $request
+     * @param ControllerDispatcher $controllerDispatcher
+     * @param Container $container
      */
     public function __construct(Request $request, ControllerDispatcher $controllerDispatcher, Container $container)
     {
@@ -38,6 +42,7 @@ class GatewayController extends Controller
      *
      * @param  string  $method
      * @param  array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -49,6 +54,9 @@ class GatewayController extends Controller
         );
     }
 
+    /**
+     * @return string|int $version
+     */
     private function getVersion()
     {
         $method = config('lapiv.default');
@@ -76,6 +84,11 @@ class GatewayController extends Controller
         return $version;
     }
 
+    /**
+     * @param string|int $version
+     * 
+     * @return Controller
+     */
     private function getControllerByVersion($version)
     {
         $controller = $this->apiControllers[$version - 1] ?? null;
