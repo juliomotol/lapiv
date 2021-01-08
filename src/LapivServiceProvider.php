@@ -2,7 +2,7 @@
 
 namespace JulioMotol\Lapiv;
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class LapivServiceProvider extends ServiceProvider
@@ -32,10 +32,10 @@ class LapivServiceProvider extends ServiceProvider
     
     protected function registerMacroHelpers()
     {
-        if (! method_exists(\Illuminate\Routing\Route::class, 'macro')) { // Lumen
+        if (! class_exists(Router::class, 'macro')) { // Lumen
             return;
         }
 
-        Route::macro('lapiv', new LapivRoute);
+        Router::macro('lapiv', new LapivRoute);
     }
 }
