@@ -79,7 +79,7 @@ class GatewayControllerTest extends TestCase
     {
         Route::namespace('\JulioMotol\Lapiv\Tests\Controllers\Api')
             ->group(
-                function () use ($closure){
+                function () use ($closure) {
                     Route::lapiv(function () use ($closure) {
                         Route::get('foo', 'FooGatewayController@index');
     
