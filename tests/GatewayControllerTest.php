@@ -67,7 +67,7 @@ class GatewayControllerTest extends TestCase
     public function it_throws_exception_when_version_action_not_found()
     {
         $this->registerRoute(function () {
-            Route::get('/foo/bar', [FooGatewayController::class, 'bar']);
+            Route::get('/foo/bar', 'FooGatewayController@bar');
         });
 
         $response = $this->getJson('v1/foo/bar');
@@ -80,7 +80,7 @@ class GatewayControllerTest extends TestCase
     public function it_can_handle_single_action_controller()
     {
         $this->registerRoute(function () {
-            Route::get('foo-invoke', FooGatewayController::class);
+            Route::get('foo-invoke', 'FooGatewayController');
         });
 
         $response = $this->getJson('v1/foo-invoke');
@@ -91,12 +91,17 @@ class GatewayControllerTest extends TestCase
 
     private function registerRoute(\Closure $closure = null)
     {
-        Route::lapiv(function () use ($closure) {
-            Route::get('foo', [FooGatewayController::class, 'index']);
-
-            if ($closure) {
-                call_user_func($closure);
-            }
-        });
+        Route::namespace('\JulioMotol\Lapiv\Tests\Controllers\Api')
+            ->group(
+                function () use ($closure) {
+                    Route::lapiv(function () use ($closure) {
+                        Route::get('foo', 'FooGatewayController@index');
+    
+                        if ($closure) {
+                            call_user_func($closure);
+                        }
+                    });
+                }
+            );
     }
 }
