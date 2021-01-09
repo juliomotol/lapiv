@@ -38,14 +38,30 @@ class GatewayController extends Controller
     }
 
     /**
-     * Handle calls to missing methods on the controller.
-     *
+     * @return mixed
+     */
+    public function __invoke()
+    {
+        return $this->dispatchApiAction('__invoke');
+    }
+
+    /**
      * @param  string  $method
      * @param  array  $parameters
      *
      * @return mixed
      */
     public function __call($method, $parameters)
+    {
+        return $this->dispatchApiAction($method);
+    }
+
+    /**
+     * @param  string  $method
+     *
+     * @return mixed
+     */
+    protected function dispatchApiAction($method)
     {
         return $this->controllerDispatcher->dispatch(
             $this->request->route(),

@@ -5,6 +5,7 @@ namespace JulioMotol\Lapiv\Tests;
 use Illuminate\Support\Facades\Route;
 use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
 use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
+use JulioMotol\Lapiv\Tests\Controllers\Api\FooGatewayController;
 use JulioMotol\Lapiv\Tests\Controllers\Api\FooV1Controller;
 
 class GatewayControllerTest extends TestCase
@@ -66,7 +67,7 @@ class GatewayControllerTest extends TestCase
     public function it_throws_exception_when_version_action_not_found()
     {
         $this->registerRoute(function () {
-            Route::get('/foo/bar', 'FooGatewayController@bar');
+            Route::get('/foo/bar', [FooGatewayController::class, 'bar']);
         });
 
         $response = $this->getJson('v1/foo/bar');
@@ -75,19 +76,27 @@ class GatewayControllerTest extends TestCase
         $this->assertEquals(\BadMethodCallException::class, $response->json('exception'));
     }
 
+    /** @test */
+    public function it_can_handle_single_action_controller()
+    {
+        $this->registerRoute(function () {
+            Route::get('foo-invoke', FooGatewayController::class);
+        });
+
+        $response = $this->getJson('v1/foo-invoke');
+
+        $response->assertSuccessful();
+        $this->assertEquals(FooV1Controller::RESPONSE_MESSAGE, $response->getContent());
+    }
+
     private function registerRoute(\Closure $closure = null)
     {
-        Route::namespace('\JulioMotol\Lapiv\Tests\Controllers\Api')
-            ->group(
-                function () use ($closure) {
-                    Route::lapiv(function () use ($closure) {
-                        Route::get('foo', 'FooGatewayController@index');
-    
-                        if ($closure) {
-                            call_user_func($closure);
-                        }
-                    });
-                }
-            );
+        Route::lapiv(function () use ($closure) {
+            Route::get('foo', [FooGatewayController::class, 'index']);
+
+            if ($closure) {
+                call_user_func($closure);
+            }
+        });
     }
 }

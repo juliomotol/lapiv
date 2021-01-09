@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   PHP 8 Support.
+-   Single action controllers via `__invoke`.
 
 ### Removed
 
@@ -23,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         ```php
         Route::namespace('\App\Http\Controllers\Api')
             ->group(function () {
-                Route::lapiv(function (){
+                Route::lapiv(function () {
                     Route::get('foo', 'FooGatewayController@index');
                     Route::get('foo/{foo}', 'FooGatewayController@show');
                 })
