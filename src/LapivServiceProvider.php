@@ -32,10 +32,6 @@ class LapivServiceProvider extends ServiceProvider
     
     protected function registerMacroHelpers()
     {
-        if (! class_exists(Router::class, 'macro')) { // Lumen
-            return;
-        }
-
         Router::macro('lapiv', new LapivRouter);
     }
 }

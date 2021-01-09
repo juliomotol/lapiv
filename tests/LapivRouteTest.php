@@ -3,6 +3,7 @@
 namespace JulioMotol\Lapiv\Tests;
 
 use Illuminate\Support\Facades\Route;
+use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
 
 class LapivRouteTest extends TestCase
 {
@@ -92,5 +93,17 @@ class LapivRouteTest extends TestCase
             $this->assertEquals($registeredRoute->getName(), $routes[$index]->getName());
             $this->assertEquals($registeredRoute->getActionName(), $routes[$index]->getActionName());
         }
+    }
+
+    /** @test */
+    public function it_throws_exception_when_invalid_versioning_method_is_set()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        config(['lapiv.default' => 'foo']);
+
+        $route = Route::lapiv()->get('/', function () {
+            return 'lapiv';
+        });
     }
 }
