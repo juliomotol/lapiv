@@ -1,15 +1,16 @@
 # Lapiv
 
-![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/juliomotol/lapiv/Run%20Laravel%206.x%20tests?event=push&label=Laravel%206%20Build&style=flat-square)
-![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/juliomotol/lapiv/Run%20Laravel%207.x%20tests?event=push&label=Laravel%207%20Build&style=flat-square)
-![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/juliomotol/lapiv/Run%20Laravel%208.x%20tests?event=push&label=Laravel%208%20Build&style=flat-square)
-[![StyleCI](https://github.styleci.io/repos/295691801/shield?branch=master)](https://github.styleci.io/repos/295691801?branch=master)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 [![Total Downloads](https://img.shields.io/packagist/dt/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 
-A Small Laravel 6+ package for a simple and easy API versioning.
+A Small Laravel 8 package for a simple and easy API versioning.
 
-> Lapiv simply stands for (L)aravel (API) (V)ersioning.
+Lapiv simply stands for (L)aravel (API) (V)ersioning.
+
+When upgrading to v2, please see the [CHANGELOG.md](./CHANGELOG.md).
+
+> For Laravel 6+ support, see [v1](https://github.com/juliomotol/lapiv/tree/v2).
 
 ## Table of Contents
 
@@ -48,7 +49,7 @@ php artisan vendor:publish --provider="JulioMotol\Lapiv\LapivServiceProvider"
 
 ## Setup
 
-Assuming you will be using the default configuration, we suggest you to follow the following directory structure.
+We suggest you to follow the following directory structure. Your free to implement your own directory structure to suit your needs.
 
 ```
 +-- app
@@ -110,17 +111,17 @@ With our controllers ready to go, lets create our route. Go to `routes/api.php`
  * @param $callback
  */
 Route::lapiv(function () {
-    Route::get('/foo', 'FooGatewayController@index');
-    Route::get('/bar', 'BarGatewayController@index');
+    Route::get('/foo', [FooGatewayController::class, 'index']);
+    Route::get('/bar', [BarGatewayController::class, 'index']);
 });
 
 // Or if you fancy chaining...
 
-Route::lapiv()->get('/foo', 'FooGatewayController@index');
-Route::lapiv()->get('/bar', 'BarGatewayController@index');
+Route::lapiv()->get('/foo', [FooGatewayController::class, 'index']);
+Route::lapiv()->get('/bar', [BarGatewayController::class, 'index']);
 ```
 
-Notice we didn't point to the `FooV1Controller@index`. As we've said, the `FooGatewayController` will be doing much of the heavy work, so we'll just call that instead.
+Notice we didn't point to the `[FooV1Controller::class, 'index']`. As we've said, the `FooGatewayController` will be doing much of the heavy work, so we'll just call that instead.
 
 When you run `php artisan route:list` you should see this.
 
