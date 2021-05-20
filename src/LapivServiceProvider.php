@@ -14,7 +14,7 @@ class LapivServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/lapiv.php' => config_path('lapiv.php'),
+                __DIR__ . '/../config/lapiv.php' => config_path('lapiv.php'),
             ], 'config');
         }
 
@@ -27,11 +27,17 @@ class LapivServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/lapiv.php', 'lapiv');
+        $this->mergeConfigFrom(__DIR__ . '/../config/lapiv.php', 'lapiv');
+
+        $this->app->singleton('lapiv', function ($app) {
+            return new ApiVersioningManager($app);
+        });
     }
 
     protected function registerMacroHelpers()
     {
-        Router::macro('lapiv', new LapivRouter());
+        Router::macro('lapiv', function ($callback = null) {
+            return Lapiv::route($callback);
+        });
     }
 }

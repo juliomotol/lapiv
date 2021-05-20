@@ -3,7 +3,7 @@
 namespace JulioMotol\Lapiv\Tests;
 
 use Illuminate\Support\Facades\Route;
-use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
+use InvalidArgumentException;
 use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
 use JulioMotol\Lapiv\Tests\Controllers\Api\FooV1Controller;
 
