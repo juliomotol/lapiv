@@ -1,9 +1,5 @@
 <?php
 
-use Illuminate\Support\Str;
-
-$appSlug = Str::slug(env('APP_NAME', 'laravel'), '_');
-
 return [
 
     /*

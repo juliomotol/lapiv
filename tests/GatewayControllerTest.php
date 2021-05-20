@@ -3,7 +3,7 @@
 namespace JulioMotol\Lapiv\Tests;
 
 use Illuminate\Support\Facades\Route;
-use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
+use InvalidArgumentException;
 use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
 use JulioMotol\Lapiv\Tests\Controllers\Api\FooV1Controller;
 
@@ -95,7 +95,7 @@ class GatewayControllerTest extends TestCase
                 function () use ($closure) {
                     Route::lapiv(function () use ($closure) {
                         Route::get('foo', 'FooGatewayController@index');
-    
+
                         if ($closure) {
                             call_user_func($closure);
                         }
