@@ -4,7 +4,7 @@ namespace JulioMotol\Lapiv\Tests;
 
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
-use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
+use JulioMotol\Lapiv\Exceptions\ApiVersionNotFoundException;
 use JulioMotol\Lapiv\Tests\Controllers\Api\FooV1Controller;
 
 class GatewayControllerTest extends TestCase
@@ -59,7 +59,7 @@ class GatewayControllerTest extends TestCase
         $response = $this->getJson('v2/foo');
 
         $response->assertStatus(404);
-        $this->assertEquals(NotFoundApiVersionException::class, $response->json('exception'));
+        $this->assertEquals(ApiVersionNotFoundException::class, $response->json('exception'));
     }
 
     /** @test */
