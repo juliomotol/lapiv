@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\ControllerDispatcher;
 use InvalidArgumentException;
-use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
+use JulioMotol\Lapiv\Exceptions\ApiVersionNotFoundException;
 
 class GatewayController extends Controller
 {
@@ -72,8 +72,8 @@ class GatewayController extends Controller
     private function getVersion()
     {
         return tap(Lapiv::getVersion(), function ($version) {
-            if (! is_numeric($version) || $version <= 0) {
-                throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
+            if (!is_numeric($version) || $version <= 0) {
+                throw new InvalidArgumentException('API Version must be an integer and not <= 0');
             }
         });
     }
@@ -87,8 +87,8 @@ class GatewayController extends Controller
     {
         $controller = $this->apiControllers[$version - 1] ?? null;
 
-        if (! $controller) {
-            throw new NotFoundApiVersionException();
+        if (!$controller) {
+            throw new ApiVersionNotFoundException();
         }
 
         return $this->container->make($controller);
