@@ -18,7 +18,7 @@ class LapivServiceProvider extends ServiceProvider
             ], 'config');
         }
 
-        $this->registerMacroHelpers();
+        $this->registerRouteMacro();
     }
 
     /**
@@ -34,7 +34,7 @@ class LapivServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerMacroHelpers()
+    protected function registerRouteMacro()
     {
         Router::macro('lapiv', function ($callback = null) {
             return Lapiv::route($callback);

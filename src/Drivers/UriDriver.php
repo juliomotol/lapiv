@@ -10,11 +10,9 @@ class UriDriver extends BaseDriver
 {
     public function route(Closure $callback = null)
     {
-        $router = Route::prefix($this->options['prefix']);
-
         return $callback
-            ? $router->group($callback)
-            : $router;
+            ? Route::prefix($this->options['prefix'])->group($callback)
+            : Route::prefix($this->options['prefix']);
     }
 
     public function getVersion()

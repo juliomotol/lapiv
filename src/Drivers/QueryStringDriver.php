@@ -10,11 +10,9 @@ class QueryStringDriver extends BaseDriver
 {
     public function route(Closure $callback = null)
     {
-        $router = Route::prefix('/');
-
         return $callback
-            ? $router->group($callback)
-            : $router;
+            ? Route::prefix('/')->group($callback)
+            : Route::prefix('/');
     }
 
     public function getVersion()
