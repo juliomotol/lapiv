@@ -11,17 +11,13 @@ use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
 
 class GatewayController extends Controller
 {
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
-    /** @var ControllerDispatcher */
-    protected $controllerDispatcher;
+    protected ControllerDispatcher $controllerDispatcher;
 
-    /** @var Container */
-    protected $container;
+    protected Container $container;
 
-    /** @var array */
-    protected $apiControllers = [];
+    protected array $apiControllers = [];
 
     /**
      * Create an ApiController Instance.

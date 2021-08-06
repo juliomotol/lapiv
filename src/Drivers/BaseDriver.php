@@ -6,8 +6,7 @@ use Closure;
 
 abstract class BaseDriver
 {
-    /** @var array */
-    public $options;
+    protected array $options;
 
     public function __construct(array $options)
     {

@@ -3,7 +3,6 @@
 namespace JulioMotol\Lapiv;
 
 use Illuminate\Support\Manager;
-use JulioMotol\Lapiv\Drivers\BaseDriver;
 use JulioMotol\Lapiv\Drivers\QueryStringDriver;
 use JulioMotol\Lapiv\Drivers\UriDriver;
 
