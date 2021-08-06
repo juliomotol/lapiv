@@ -36,7 +36,7 @@ class LapivRouteTest extends TestCase
     {
         $routes = [];
 
-        $route = Route::lapiv(function () use (&$routes) {
+        Route::lapiv(function () use (&$routes) {
             $routes[0] = Route::get('/foo', function () {
                 return 'foo';
             })->name('foo');
@@ -45,9 +45,7 @@ class LapivRouteTest extends TestCase
             })->name('bar');
         });
 
-        $registeredRoutes = collect($this->router->getRoutes())->all();
-
-        foreach ($registeredRoutes as $index => $registeredRoute) {
+        foreach ($this->router->getRoutes() as $index => $registeredRoute) {
             $this->assertEquals($registeredRoute->uri(), $routes[$index]->uri());
             $this->assertEquals($registeredRoute->getName(), $routes[$index]->getName());
             $this->assertEquals($registeredRoute->getActionName(), $routes[$index]->getActionName());
@@ -86,9 +84,7 @@ class LapivRouteTest extends TestCase
             })->name('bar');
         });
 
-        $registeredRoutes = collect($this->router->getRoutes())->all();
-
-        foreach ($registeredRoutes as $index => $registeredRoute) {
+        foreach ($this->router->getRoutes() as $index => $registeredRoute) {
             $this->assertEquals($registeredRoute->uri(), $routes[$index]->uri());
             $this->assertEquals($registeredRoute->getName(), $routes[$index]->getName());
             $this->assertEquals($registeredRoute->getActionName(), $routes[$index]->getActionName());
@@ -102,7 +98,7 @@ class LapivRouteTest extends TestCase
 
         config(['lapiv.default' => 'foo']);
 
-        $route = Route::lapiv()->get('/', function () {
+        Route::lapiv()->get('/', function () {
             return 'lapiv';
         });
     }
