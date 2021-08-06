@@ -6,7 +6,7 @@ use Illuminate\Routing\Controller;
 
 class FooV1Controller extends Controller
 {
-    const RESPONSE_MESSAGE = 'This is Foo V1';
+    public const RESPONSE_MESSAGE = 'This is Foo V1';
 
     public function __invoke()
     {

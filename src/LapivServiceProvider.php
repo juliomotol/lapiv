@@ -29,9 +29,9 @@ class LapivServiceProvider extends ServiceProvider
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/lapiv.php', 'lapiv');
     }
-    
+
     protected function registerMacroHelpers()
     {
-        Router::macro('lapiv', new LapivRouter);
+        Router::macro('lapiv', new LapivRouter());
     }
 }

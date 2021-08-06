@@ -95,7 +95,7 @@ class GatewayControllerTest extends TestCase
                 function () use ($closure) {
                     Route::lapiv(function () use ($closure) {
                         Route::get('foo', 'FooGatewayController@index');
-    
+
                         if ($closure) {
                             call_user_func($closure);
                         }
