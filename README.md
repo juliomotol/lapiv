@@ -121,6 +121,10 @@ Route::lapiv()->get('/foo', [FooGatewayController::class, 'index']);
 Route::lapiv()->get('/bar', [BarGatewayController::class, 'index']);
 ```
 
+> !!! WARNING !!!
+>
+> Please refrain from using chaining. See [Lapiv issue](https://github.com/juliomotol/lapiv/issues/1) and [Laravel issue](https://github.com/laravel/framework/issues/38261).
+
 Notice we didn't point to the `[FooV1Controller::class, 'index']`. As we've said, the `FooGatewayController` will be doing much of the heavy work, so we'll just call that instead.
 
 When you run `php artisan route:list` you should see this.
