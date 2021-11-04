@@ -6,22 +6,18 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\ControllerDispatcher;
-use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
-use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
+use InvalidArgumentException;
+use JulioMotol\Lapiv\Exceptions\ApiVersionNotFoundException;
 
 class GatewayController extends Controller
 {
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
-    /** @var ControllerDispatcher */
-    protected $controllerDispatcher;
+    protected ControllerDispatcher $controllerDispatcher;
 
-    /** @var Container */
-    protected $container;
+    protected Container $container;
 
-    /** @var array */
-    protected $apiControllers = [];
+    protected array $apiControllers = [];
 
     /**
      * Create an ApiController Instance.
@@ -75,29 +71,11 @@ class GatewayController extends Controller
      */
     private function getVersion()
     {
-        $method = config('lapiv.default');
-        $methodOptions = config('lapiv.methods.'.$method);
-
-        $version = null;
-
-        switch ($method) {
-            case 'uri':
-                $version = $this->request->route('version', null);
-
-                break;
-            case 'query_string':
-                $version = $this->request->input($methodOptions['key']) ?? null;
-
-                break;
-            default:
-                throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
-        }
-
-        if (! is_numeric($version) || $version <= 0) {
-            throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
-        }
-
-        return $version;
+        return tap(Lapiv::getVersion(), function ($version) {
+            if (! is_numeric($version) || $version <= 0) {
+                throw new InvalidArgumentException('API Version must be an integer and not <= 0');
+            }
+        });
     }
 
     /**
@@ -110,7 +88,7 @@ class GatewayController extends Controller
         $controller = $this->apiControllers[$version - 1] ?? null;
 
         if (! $controller) {
-            throw new NotFoundApiVersionException();
+            throw new ApiVersionNotFoundException();
         }
 
         return $this->container->make($controller);

@@ -4,6 +4,6 @@ namespace JulioMotol\Lapiv\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class NotFoundApiVersionException extends NotFoundHttpException
+class ApiVersionNotFoundException extends NotFoundHttpException
 {
 }

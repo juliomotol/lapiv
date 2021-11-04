@@ -3,7 +3,7 @@
 namespace JulioMotol\Lapiv\Tests;
 
 use Illuminate\Support\Facades\Route;
-use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
+use InvalidArgumentException;
 
 class LapivRouteTest extends TestCase
 {
