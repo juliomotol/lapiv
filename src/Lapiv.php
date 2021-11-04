@@ -5,7 +5,7 @@ namespace JulioMotol\Lapiv;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Illuminate\Routing\Router|\Illuminate\Routing\RouteRegistrar route()
+ * @method static \Illuminate\Routing\RouteRegistrar routeGroup()
  * @method static int getVersion()
  *
  * @see \JulioMotol\Lapiv\ApiVersioningManager

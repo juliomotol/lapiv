@@ -6,11 +6,8 @@ use Closure;
 
 abstract class BaseDriver
 {
-    protected array $options;
-
-    public function __construct(array $options)
+    public function __construct(public array $options)
     {
-        $this->options = $options;
     }
 
     abstract public function route(Closure $callback = null);
