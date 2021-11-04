@@ -42,7 +42,7 @@ class GatewayController extends Controller
     private function getVersion(): string|int
     {
         return tap(Lapiv::getVersion(), function ($version) {
-            if (!is_numeric($version) || $version <= 0) {
+            if (! is_numeric($version) || $version <= 0) {
                 throw new InvalidArgumentException('API Version must be an integer and not <= 0');
             }
         });
