@@ -18,20 +18,6 @@ class LapivRouteTest extends TestCase
     }
 
     /** @test */
-    public function it_can_register_api_routes_with_uri_method()
-    {
-        $route = Route::lapiv()->get('/', function () {
-            return 'lapiv';
-        })->name('uri-versioning');
-
-        $registeredRoute = collect($this->router->getRoutes())->first();
-
-        $this->assertEquals($registeredRoute->uri(), $route->uri());
-        $this->assertEquals($registeredRoute->getName(), $route->getName());
-        $this->assertEquals($registeredRoute->getActionName(), $route->getActionName());
-    }
-
-    /** @test */
     public function it_can_register_grouped_api_routes_with_uri_method()
     {
         $routes = [];
@@ -50,22 +36,6 @@ class LapivRouteTest extends TestCase
             $this->assertEquals($registeredRoute->getName(), $routes[$index]->getName());
             $this->assertEquals($registeredRoute->getActionName(), $routes[$index]->getActionName());
         }
-    }
-
-    /** @test */
-    public function it_can_register_api_routes_with_query_string_method()
-    {
-        config(['lapiv.default' => 'query_string']);
-
-        $route = Route::lapiv()->get('/', function () {
-            return 'lapiv';
-        })->name('query-string-versioning');
-
-        $registeredRoute = collect($this->router->getRoutes())->first();
-
-        $this->assertEquals($registeredRoute->uri(), $route->uri());
-        $this->assertEquals($registeredRoute->getName(), $route->getName());
-        $this->assertEquals($registeredRoute->getActionName(), $route->getActionName());
     }
 
     /** @test */
@@ -98,8 +68,6 @@ class LapivRouteTest extends TestCase
 
         config(['lapiv.default' => 'foo']);
 
-        Route::lapiv()->get('/', function () {
-            return 'lapiv';
-        });
+        Route::lapiv(fn () => Route::get('/', fn () => 'lapiv'));
     }
 }

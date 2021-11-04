@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\Route;
 
 class UriDriver extends BaseDriver
 {
-    public function route(Closure $callback = null)
+    public function routeGroup(Closure $callback): void
     {
-        return $callback
-            ? Route::prefix($this->options['prefix'])->group($callback)
-            : Route::prefix($this->options['prefix']);
+        Route::prefix($this->options['prefix'])->group($callback);
     }
 
-    public function getVersion()
+    public function getVersion(): string|int
     {
         return Request::route('version');
     }
