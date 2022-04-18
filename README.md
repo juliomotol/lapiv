@@ -4,7 +4,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 [![Total Downloads](https://img.shields.io/packagist/dt/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 
-A Small Laravel 8 package for a simple and easy API versioning.
+A Small Laravel 8+ package for a simple and easy API versioning.
 
 Lapiv simply stands for (L)aravel (API) (V)ersioning.
 
@@ -28,24 +28,15 @@ composer require juliomotol/lapiv
 | methods.uri.prefix       | `"v{version}"` | The prefix for uri based versioning. (NOTE: Always include the "version" parameter in the prefix) |
 | methods.query_string.key | `"v"`          | The query string key name for determining the version                                             |
 
-If you want to make changes in the configuration you can publish the config file using:
-
-```
-php artisan vendor:publish --provider="JulioMotol\Lapiv\LapivServiceProvider"
-```
+> If you want to make changes in the configuration you can publish the config file using:
+>
+> ```
+> php artisan vendor:publish --provider="JulioMotol\Lapiv\LapivServiceProvider"
+> ```
 
 ## Setup
 
-We suggest you to follow the following directory structure. Your free to implement your own directory structure to suit your needs.
-
-```
-+-- app
-    +-- Http
-        +-- Controllers
-            +-- Api
-                +-- FooGatewayController.php
-                +-- FooV1Controller.php
-```
+Now the juicy part, we'll walk you through how to setup versioned Controllers.
 
 ### `FooV1Controller.php`
 
@@ -87,7 +78,7 @@ class FooGatewayController extends GatewayController
 
 ### Routing
 
-With our controllers ready to go, lets create our route. Go to `routes/api.php`
+With our controllers ready to go, lets create our route. Go to `routes/api.php`.
 
 ```php
 /**
