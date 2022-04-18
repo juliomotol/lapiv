@@ -2,6 +2,7 @@
 
 namespace JulioMotol\Lapiv;
 
+use Closure;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,11 +15,11 @@ class LapivServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/lapiv.php' => config_path('lapiv.php'),
+                __DIR__ . '/../config/lapiv.php' => config_path('lapiv.php'),
             ], 'config');
         }
 
-        $this->registerMacroHelpers();
+        $this->registerRouteMacro();
     }
 
     /**
@@ -27,11 +28,13 @@ class LapivServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/lapiv.php', 'lapiv');
+        $this->mergeConfigFrom(__DIR__ . '/../config/lapiv.php', 'lapiv');
+
+        $this->app->singleton('lapiv', fn ($app) => new ApiVersioningManager($app));
     }
 
-    protected function registerMacroHelpers()
+    protected function registerRouteMacro(): void
     {
-        Router::macro('lapiv', new LapivRouter());
+        Router::macro('lapiv', fn (Closure $callback) => Lapiv::routeGroup($callback));
     }
 }

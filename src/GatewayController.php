@@ -6,62 +6,31 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\ControllerDispatcher;
-use JulioMotol\Lapiv\Exceptions\InvalidArgumentException;
-use JulioMotol\Lapiv\Exceptions\NotFoundApiVersionException;
+use InvalidArgumentException;
+use JulioMotol\Lapiv\Exceptions\ApiVersionNotFoundException;
 
 class GatewayController extends Controller
 {
-    /** @var Request */
-    protected $request;
+    protected array $apiControllers = [];
 
-    /** @var ControllerDispatcher */
-    protected $controllerDispatcher;
-
-    /** @var Container */
-    protected $container;
-
-    /** @var array */
-    protected $apiControllers = [];
-
-    /**
-     * Create an ApiController Instance.
-     *
-     * @param Request $request
-     * @param ControllerDispatcher $controllerDispatcher
-     * @param Container $container
-     */
-    public function __construct(Request $request, ControllerDispatcher $controllerDispatcher, Container $container)
-    {
-        $this->request = $request;
-        $this->controllerDispatcher = $controllerDispatcher;
-        $this->container = $container;
+    public function __construct(
+        protected Request $request,
+        protected ControllerDispatcher $controllerDispatcher,
+        protected Container $container
+    ) {
     }
 
-    /**
-     * @return mixed
-     */
-    public function __invoke()
+    public function __invoke(): mixed
     {
         return $this->dispatchApiAction('__invoke');
     }
 
-    /**
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return mixed
-     */
     public function __call($method, $parameters)
     {
         return $this->dispatchApiAction($method);
     }
 
-    /**
-     * @param  string  $method
-     *
-     * @return mixed
-     */
-    protected function dispatchApiAction($method)
+    protected function dispatchApiAction(string $method): mixed
     {
         return $this->controllerDispatcher->dispatch(
             $this->request->route(),
@@ -70,47 +39,21 @@ class GatewayController extends Controller
         );
     }
 
-    /**
-     * @return string|int $version
-     */
-    private function getVersion()
+    private function getVersion(): string|int
     {
-        $method = config('lapiv.default');
-        $methodOptions = config('lapiv.methods.'.$method);
-
-        $version = null;
-
-        switch ($method) {
-            case 'uri':
-                $version = $this->request->route('version', null);
-
-                break;
-            case 'query_string':
-                $version = $this->request->input($methodOptions['key']) ?? null;
-
-                break;
-            default:
-                throw new InvalidArgumentException('"'.$method.'" is not a valid versioning method.');
-        }
-
-        if (! is_numeric($version) || $version <= 0) {
-            throw new InvalidArgumentException('API Version must be a valid number and not <= 0');
-        }
-
-        return $version;
+        return tap(Lapiv::getVersion(), function ($version) {
+            if (! is_numeric($version) || $version <= 0) {
+                throw new InvalidArgumentException('API Version must be an integer and not <= 0');
+            }
+        });
     }
 
-    /**
-     * @param string|int $version
-     *
-     * @return Controller
-     */
-    private function getControllerByVersion($version)
+    private function getControllerByVersion(string|int $version): mixed
     {
         $controller = $this->apiControllers[$version - 1] ?? null;
 
         if (! $controller) {
-            throw new NotFoundApiVersionException();
+            throw new ApiVersionNotFoundException();
         }
 
         return $this->container->make($controller);
