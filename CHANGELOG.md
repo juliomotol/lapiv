@@ -15,6 +15,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Minimum requirement to PHP8
+    - In your controller that extends `GatewayController`, you'll need to specify the type for the `$apiControllers` property as `array`
+    ```php
+    class FooGatewayController extends GatewayController
+    {
+        /** old */
+        // protected $apiControllers = [...];
+
+        /** new */
+        protected array $apiControllers = [...];
+    }
+    ```
 
 ### Removed
 
