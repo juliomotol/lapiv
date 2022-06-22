@@ -67,7 +67,7 @@ use JulioMotol\Lapiv\GatewayController;
 
 class FooGatewayController extends GatewayController
 {
-    protected $apiControllers = [
+    protected array $apiControllers = [
         FooV1Controller::class, // The first version of you API endpoint.
         // Preceeding version implementations...
     ];
