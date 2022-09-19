@@ -4,6 +4,15 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 [![Total Downloads](https://img.shields.io/packagist/dt/juliomotol/lapiv.svg?style=flat-square)](https://packagist.org/packages/juliomotol/lapiv)
 
+> ## This package is **feature locked** 
+>
+> With the recent developments in PHP, Laravel and its community of packages, it has been easier than ever to manage routes for versioned APIs.
+>
+> We have found better ways to do what this package does in a much cleaner way. We suggest for you to take a look at [spatie/laravel-route-attributes](https://github.com/spatie/laravel-route-attributes) or [spatie/laravel-route-discovery](https://spatie.be/docs/laravel-route-discovery/v1/introduction).
+>
+> With that, we will still continue to provide support for future PHP/Laravel updates until any major breakage.
+
+
 A Small Laravel 8+ package for a simple and easy API versioning.
 
 Lapiv simply stands for (L)aravel (API) (V)ersioning.
