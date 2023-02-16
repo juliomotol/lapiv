@@ -13,13 +13,9 @@
 > With that, we will still continue to provide support for future PHP/Laravel updates until any major breakage.
 
 
-A Small Laravel 8+ package for a simple and easy API versioning.
+A Small Laravel package for a simple and easy API versioning.
 
 Lapiv simply stands for (L)aravel (API) (V)ersioning.
-
-When upgrading to v2, please see the [CHANGELOG.md](./CHANGELOG.md).
-
-> For Laravel 6+ support, see [v1](https://github.com/juliomotol/lapiv/tree/v2).
 
 ## Installation
 
